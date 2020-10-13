@@ -1,5 +1,4 @@
 const baseUrl = 'https://opentdb.com/api.php?amount='
-import { triviaStructure } from 'lib'
 
 const composeUrl = (questionAmount, category, difficulty) => {
   let url = baseUrl

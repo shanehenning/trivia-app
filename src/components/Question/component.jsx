@@ -2,7 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Loading from 'components/Loading'
 import Score from 'components/Score'
-import { ListItem } from './component.styles'
+import {
+  QuestionContainer,
+  TitleQuestion,
+  TitleClue,
+  TitleCategory,
+  List,
+  ListItem,
+} from './component.styles'
 
 const initialState = {
   answered: false,
@@ -19,7 +26,6 @@ class Question extends Component {
   }
 
   checkAnswer = e => {
-    const { answered } = this.state
     const {
       answeredQuestion,
       currentQuestionNumber,
@@ -30,7 +36,6 @@ class Question extends Component {
     const nextQuestionNumber = currentQuestionNumber + 1
     const finalQuestionAnswered = nextQuestionNumber > totalQuestions
 
-    if (answered) return null
     const { allAnswers, correct_answer } = data
     const correctAnswerIndex = allAnswers.indexOf(correct_answer) + 1
     const wasCorrect = e.currentTarget.value === correctAnswerIndex
@@ -82,7 +87,8 @@ class Question extends Component {
   }
 
   render() {
-    const { data, guess, isFetching } = this.props
+    const { currentQuestionNumber, data, guess, isFetching, match } = this.props
+    const { answered } = this.state
     const { answerKey, question = '', category = '', allAnswers = [] } =
       data || {}
     if (isFetching) {
@@ -93,14 +99,15 @@ class Question extends Component {
     // }
 
     return (
-      <>
+      <QuestionContainer guessed={answered}>
         {/* <Score
         scorePossible={}
         scoreCorrect={}
       /> */}
-        <h2>{question}</h2>
-        <h3>Category: {category}</h3>
-        <ol type="A">
+        <TitleQuestion>Question #{currentQuestionNumber}</TitleQuestion>
+        <TitleCategory>Category: {category}</TitleCategory>
+        <TitleClue>{question}</TitleClue>
+        <List type="A">
           {allAnswers.map((answer, i) => {
             const { answered, clickedAnswer } = this.state || false
             const isCorrect = answerKey[i]
@@ -116,13 +123,15 @@ class Question extends Component {
                 id={`answer-${i + 1}`}
                 key={`question-${i + 1}`}
                 onClick={this.checkAnswer}
+                showGuessed={answerGuessed}
                 value={i + 1}
+                wasCorrect={isCorrect}
               >
                 {answer}
               </ListItem>
             )
           })}
-        </ol>
+        </List>
         {this.state.answered && (
           <>
             <p>You were {this.state.answeredCorrectly ? 'right' : 'wrong'}!</p>
@@ -130,7 +139,7 @@ class Question extends Component {
           </>
         )}
         <Score />
-      </>
+      </QuestionContainer>
     )
   }
 }

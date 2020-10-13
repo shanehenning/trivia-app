@@ -57,11 +57,13 @@ class Intro extends Component {
               onChange={e => this.handleInputChange(e)}
             >
               <option value="0">{'Any Category'}</option>
-              {triviaStructure.categories.map((selectable, i) => (
-                <option key={i + 1} value={i + 9}>
-                  {selectable}
-                </option>
-              ))}
+              {triviaStructure.categories.map(
+                ({ categoryName, categoryNumber }, i) => (
+                  <option key={categoryNumber + 1} value={categoryNumber + 9}>
+                    {categoryName}
+                  </option>
+                ),
+              )}
             </select>
           </label>
 

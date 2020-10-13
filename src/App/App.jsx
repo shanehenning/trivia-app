@@ -8,6 +8,7 @@ import { triviaStructure } from 'lib'
 import Intro from 'components/Intro'
 import Question from 'components/Question'
 import GameOver from 'components/GameOver'
+import { Background } from './component.styles'
 
 const filterUnique = list => {
   let seen = {}
@@ -42,7 +43,7 @@ export class App extends Component {
     const { triviaExists } = props
 
     return (
-      <>
+      <Background>
         <button onClick={this.startOver}>Start Over</button>
         <Switch>
           <Route component={Intro} path={`/start`} />
@@ -53,7 +54,7 @@ export class App extends Component {
           <Route component={GameOver} path={`/game-over`} />
           <Redirect from={`/`} exact to={`/start`} />
         </Switch>
-      </>
+      </Background>
     )
   }
 }

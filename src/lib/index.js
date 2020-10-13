@@ -1,2 +1,2 @@
-import * as triviaStructure from './triviaStructure.json'
+import triviaStructure from './triviaStructure'
 export { triviaStructure }
